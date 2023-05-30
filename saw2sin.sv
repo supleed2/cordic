@@ -22,8 +22,13 @@ cordic cordic
 , .o_sin (qsin)
 );
 
-always_comb o_sin = invert
-  ? ~{1'b1, qsin[15:1]} + 1 // Invert
-  : {1'b1, qsin[15:1]};     // Normal
+logic [16:0] sin;
+always_comb sin = reverse
+  ? (invert ? ~{1'b1, qsin[15:0]}          // Reverse, Invert
+            : {1'b1, qsin[15:0]} + 17'd1)  // Reverse, Normal
+  : (invert ? ~{1'b1, qsin[15:0]} + 17'd2  // Normal, Invert
+            : {1'b1, qsin[15:0]} + 17'd0); // Normal, Normal
+
+always_comb o_sin = sin[16:1];
 
 endmodule

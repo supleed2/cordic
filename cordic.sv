@@ -62,7 +62,7 @@ end
 /* verilator lint_on ALWCOMBORDER */
 
 always_comb
-  if (i_qph > 16'd65508)   o_sin = 16'hFFFF;
+  if (i_qph > 16'd65508)   o_sin = 16'hFFFE;
   else if (i_qph < 16'd32) o_sin = i_qph + (i_qph >> 1);
   else                     o_sin = y[19][17:2];
 
