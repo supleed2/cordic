@@ -13,8 +13,8 @@ always_comb reverse = i_saw[14];
 
 logic [15:0] qsaw;
 always_comb qsaw = reverse
-  ? {~i_saw[13:0], 2'b01} // Reverse
-  : {i_saw[13:0], 2'b00}; // Normal
+  ? {~i_saw[13:0], 2'b11} // Reverse
+  : {i_saw[13:0], 2'b01}; // Normal
 
 logic [15:0] qsin;
 cordic cordic
