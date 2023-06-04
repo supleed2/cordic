@@ -1,4 +1,5 @@
 import cocotb
+from cocotb.clock import Clock
 from cocotb.triggers import Timer
 from math import sin, cos, pi
 
@@ -6,10 +7,11 @@ from math import sin, cos, pi
 async def test_new_cordic(dut):
     """Test that cordic matches sin"""
 
+    await cocotb.start(Clock(dut.i_clk, 10, units='ps').start())
     diff = 0
     for cycle in range(0, 65536):
         dut.i_saw.value = cycle
-        await Timer(1, units='ps')
+        await Timer(20, units='ps')
         e_sin = 32768 * (sin((cycle * pi) / (2**15)) + 1)
         error = float(dut.o_sin.value) - e_sin
         if abs(error) > 2:
