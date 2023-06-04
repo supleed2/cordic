@@ -1,7 +1,8 @@
 `default_nettype none
 
 module saw2sin
-( input  var [15:0] i_saw
+( input  var        i_clk
+, input  var [15:0] i_saw
 , output var [15:0] o_sin
 );
 
@@ -23,7 +24,7 @@ cordic cordic
 );
 
 logic [16:0] sin;
-always_comb sin = reverse
+always_ff @(posedge i_clk) sin <= reverse
   ? (invert ? ~{1'b1, qsin[15:0]}          // Reverse, Invert
             : {1'b1, qsin[15:0]} + 17'd1)  // Reverse, Normal
   : (invert ? ~{1'b1, qsin[15:0]} + 17'd2  // Normal, Invert
